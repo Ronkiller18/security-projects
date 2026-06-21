@@ -1,0 +1,339 @@
+/* ============================================
+   global.css — Base reset, variables,
+   typography, header, footer, nav, panels
+   ============================================ */
+
+/* ---- CSS Variables ---- */
+:root {
+    --bg-base:        #0b0f1a;
+    --bg-panel:       #111827;
+    --bg-panel-alt:   #151d2e;
+    --bg-hover:       #1a2440;
+    --border:         #1e2d47;
+    --border-light:   #243354;
+
+    --text-primary:   #e2e8f0;
+    --text-secondary: #7a93b8;
+    --text-muted:     #3d5473;
+
+    --accent:         #38bdf8;
+    --accent-dim:     #0e4f72;
+    --accent-glow:    rgba(56, 189, 248, 0.15);
+
+    --risk-high:      #f87171;
+    --risk-high-bg:   rgba(248, 113, 113, 0.12);
+    --risk-medium:    #fbbf24;
+    --risk-medium-bg: rgba(251, 191, 36, 0.10);
+    --risk-low:       #34d399;
+    --risk-low-bg:    rgba(52, 211, 153, 0.10);
+
+    --radius-sm:  4px;
+    --radius:     8px;
+    --radius-lg:  12px;
+
+    --font-ui:   'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --transition: 0.18s ease;
+
+    /* Tool output fixed height — change this one value to resize it */
+    --tool-output-height: 280px;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-ui);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ---- Typography ---- */
+h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); }
+h4 { font-size: 0.8rem;  font-weight: 700; }
+p  { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.55; }
+
+a  { color: var(--accent); text-decoration: none; transition: opacity var(--transition); }
+a:hover { opacity: 0.75; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* ============================================
+   HEADER — centered vertical stack
+   ============================================ */
+.app-header {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.header-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.header-brand h1 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.header-tagline {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Status badge */
+.platform-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.platform-status strong {
+    color: var(--risk-low);
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--risk-low);
+    box-shadow: 0 0 6px var(--risk-low);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+
+/* Nav */
+.top-nav { display: flex; gap: 0.25rem; }
+
+.nav-link {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    transition: all var(--transition);
+    letter-spacing: 0.02em;
+}
+
+.nav-link:hover  { color: var(--text-primary); background: var(--bg-hover); opacity: 1; }
+.nav-link.active { color: var(--accent); background: var(--accent-glow); }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.app-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.1rem 2rem;
+    text-align: center;
+    margin-top: auto;
+    background: var(--bg-panel);
+}
+
+.footer-content {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-footer p {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   SHARED PANEL BASE
+   ============================================ */
+.panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    gap: 0.5rem;
+    /* Never shrink — stays visible even when output area scrolls */
+    flex-shrink: 0;
+}
+
+.section-header h3 { margin: 0; }
+
+.header-right-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ---- Collapsible ---- */
+.collapsible-header {
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition);
+}
+.collapsible-header:hover { background: var(--bg-hover); }
+
+.collapse-icon {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: transform var(--transition);
+    flex-shrink: 0;
+}
+
+.collapsible-body {
+    transition: max-height 0.28s ease, opacity 0.2s ease;
+    max-height: 2000px;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.collapsible-body.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+}
+
+/* Scroll containers for right-column panels */
+.history-scroll {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+#findings-body {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+/* ---- Empty state ---- */
+.empty-state {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.78rem;
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+button {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.45rem 1rem;
+    background: var(--accent);
+    color: #0b0f1a;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+button:hover {
+    background: #7dd3fc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+button:active { transform: translateY(0); }
+
+.secondary-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+
+.secondary-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+/* ---- Action row ---- */
+.action-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   RESPONSIVE — mobile header/footer
+   ============================================ */
+@media (max-width: 600px) {
+    .app-header    { padding: 0.75rem 1rem; }
+    .platform-status { display: none; }
+}

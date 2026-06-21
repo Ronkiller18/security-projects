@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="page-container">
+
+        <!-- EDUCATIONAL WARNING -->
+        <div class="alert alert-warning">
+            This lab intentionally uses insecure client-side
+            authentication mechanisms for educational purposes.
+        </div>
+
+        <!-- PAGE TITLE -->
+        <h1>📊 Dashboard (Protected Area)</h1>
+
+        <div class="alert alert-warning">
+            ⚠️ This page is intentionally vulnerable and can be accessed without authentication.
+        </div>
+
+        <p>Welcome! You are logged in.</p>
+
+        <!-- LOGOUT -->
+        <div class="action-row">
+
+            <button id="logoutBtn" class="btn btn-danger">
+                🚪 Logout
+            </button>
+
+        </div>
+
+        <!-- ROUTE PROTECTION -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🛡️ Route Protection Status</h2>
+
+                <span class="severity-badge info" id="routeProtectionBadge">
+                    Checking...
+                </span>
+
+            </div>
+
+            <div class="alert alert-info" id="routeProtectionMessage">
+                Checking route protection...
+            </div>
+
+        </section>
+
+        <!-- USER AUTHORIZATION -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>👤 User Authorization</h2>
+
+                <span class="severity-badge medium" id="roleBadge">
+                    Loading...
+                </span>
+
+            </div>
+
+            <p> Current role: </p>
+
+            <pre><code id="roleDisplay"></code></pre>
+
+            <div class="alert alert-info" id="roleMessage">
+                Checking permissions...
+            </div>
+
+        </section>
+
+        <!-- JWT DEMONSTRATION -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🪙 JWT Payload Simulation</h2>
+
+                <span class="severity-badge medium">
+                    Demonstration
+                </span>
+
+            </div>
+
+            <pre><code id="jwtDisplay">{
+                "role": "guest"
+            }</code></pre>
+
+            <div class="alert alert-warning">
+                This JWT payload is intentionally trusted
+                client-side for educational demonstration.
+            </div>
+
+        </section>
+
+        <!-- ACTIVE SESSION -->
+        <section class="lab-section security-card exploit-box">
+
+            <div class="section-header">
+
+                <h2>🪪 Active Session</h2>
+
+                <span
+                    class="severity-badge info"
+                    id="sessionRiskBadge"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+            <p>
+                Current session identifier:
+            </p>
+
+            <pre>
+            <code id="sessionDisplay"></code>
+            </pre>
+
+            <div
+                class="alert alert-warning"
+                id="sessionWarning"
+            >
+                Loading session warning...
+            </div>
+
+        </section>
+
+        <!-- SESSION TIMELINE -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🕒 Session Activity Timeline</h2>
+
+            </div>
+
+            <ul
+                id="sessionTimeline"
+                class="timeline-list"
+            >
+            </ul>
+
+        </section>
+
+        <!-- SESSION METADATA -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🧾 Session Metadata</h2>
+
+                <span class="severity-badge info">
+                    Runtime Info
+                </span>
+
+            </div>
+
+            <ul class="timeline-list">
+
+                <li>
+                    <strong>Session Mode:</strong>
+                    <span id="sessionModeDisplay"></span>
+                </li>
+
+                <li>
+                    <strong>User Role:</strong>
+                    <span id="sessionRoleDisplay"></span>
+                </li>
+
+                <li>
+                    <strong>Storage Type:</strong>
+                    localStorage
+                </li>
+
+                <li>
+                    <strong>Session Expiry:</strong>
+                    <span id="sessionExpiryDisplay"></span>
+                </li>
+
+            </ul>
+
+        </section>
+
+        <!-- BROKEN ACCESS CONTROL -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🔴 Broken Access Control</h2>
+
+                <span class="severity-badge critical">
+                    Critical
+                </span>
+
+            </div>
+
+            <p>
+                <strong>Description:</strong><br>
+                The dashboard page does not verify whether the user is authenticated
+                before granting access.
+            </p>
+
+            <p>
+                <strong>Vulnerability:</strong><br>
+                Users can directly access this page by entering the URL,
+                bypassing the login process.
+            </p>
+
+            <p>
+                <strong>Impact:</strong><br>
+                Attackers can access restricted areas without authentication,
+                potentially exposing sensitive data or functionality.
+            </p>
+
+            <p>
+                <strong>Example Attack:</strong>
+            </p>
+
+            <pre><code>
+            Open directly:
+            /dashboard.html
+            </code></pre>
+
+            <p>
+                <strong>Fix:</strong><br>
+                Validate authentication before allowing access to protected resources.
+                This is typically enforced on the server.
+            </p>
+
+        </section>
+
+        <!-- ADDITIONAL BREAKDOWN -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🧠 Vulnerability Breakdown</h2>
+
+                <span class="severity-badge info">
+                    Educational
+                </span>
+
+            </div>
+
+            <div class="alert alert-info">
+
+                This lab intentionally demonstrates insecure authentication patterns
+                commonly found in poorly designed frontend applications.
+
+            </div>
+
+            <h3>🔴 Weak Authentication</h3>
+
+            <p>
+                Login logic is fully client-side and can be modified.
+            </p>
+
+            <pre><code>
+            login = function() {
+                document.getElementById("message").textContent =
+                "Login successful";
+            }
+            </code></pre>
+
+            <h3>🟠 Insecure Session</h3>
+
+            <p>
+                Session stored in localStorage can be manipulated.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "isLoggedIn",
+                "true"
+            );
+            </code></pre>
+
+            <h3>🟠 Session Fixation</h3>
+
+            <p>
+                A session fixation vulnerability occurs when an application
+                accepts a session identifier supplied by an attacker instead
+                of generating a new one after authentication.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "sessionId",
+                "attacker-session-123"
+            );
+            </code></pre>
+
+            <p>
+                If the victim logs in using this fixed session,
+                the attacker already knows the authenticated session value.
+            </p>
+
+            <h3>🔴 Broken Route Protection</h3>
+
+            <p>
+                Protected routes should verify authentication
+                before granting access.
+            </p>
+
+            <pre><code>/dashboard.html</code></pre>
+
+            <h3>🟠 Privilege Escalation</h3>
+
+            <p>
+                The application trusts roles stored in localStorage.
+                Attackers can modify their own privileges.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "userRole",
+                "admin"
+            );
+            </code></pre>
+
+            <p>
+                This allows unauthorized administrative access.
+            </p>
+
+            <h3>🟢 Secure Mitigations</h3>
+
+            <ul>
+
+                <li> Regenerate sessions after login</li>
+                <li>Invalidate sessions during logout</li>
+                <li> Enforce authentication checks on protected routes</li>
+                <li>Validate authorization server-side</li>
+                <li>Never trust localStorage for security decisions</li>
+
+            </ul>
+
+        </section>
+
+        <script
+            type="module"
+            src="./js/auth/app.js"
+        ></script>
+
+    </div>
+
+</body>
+</html>

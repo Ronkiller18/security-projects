@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auth Lab - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="page-container">
+
+        <div class="alert alert-warning">
+            This lab intentionally uses insecure client-side
+            authentication mechanisms for educational purposes.
+        </div>
+
+        <!-- INTRO -->
+        <section class="lab-intro security-card ">
+            <h1>🔐 Authentication Vulnerability Lab</h1>
+
+            <p>
+                This lab demonstrates authentication and access control vulnerabilities.
+            </p>
+
+            <ul>
+                <li>🔴 Weak client-side authentication</li>
+                <li>🟠 Insecure session storage (localStorage)</li>
+                <li>🔴 Broken access control</li>
+            </ul>
+        </section>
+
+        <!--Login-->
+        <section class="lab-section security-card auth-card">
+
+            <div class="section-header">
+                <h2>🔐 Login (Vulnerable)</h2>
+
+                <span class="severity-badge critical">
+                    Critical
+                </span>
+            </div>
+
+            <div class="security-mode-selector">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="sessionMode"
+                        value="vulnerable"
+                        checked
+                    >
+                    Vulnerable Mode
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="sessionMode"
+                        value="secure"
+                    >
+                    Secure Mode
+                </label>
+
+            </div>
+
+            <form id="loginForm" class="auth-form">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter username"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                    >
+
+                    <div id="passwordStrength"></div>
+
+                    <ul id="passwordFeedback"></ul>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Login
+                </button>
+
+            </form>
+
+            <p id="message" class="status-message"></p>
+            <p id="lockoutMessage" class="lockout-message"></p>
+
+        </section>
+        
+        <!-- DEMO CREDENTIALS -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🧪 Demo Credentials</h2>
+
+                <span class="severity-badge info">
+                    Testing
+                </span>
+
+            </div>
+
+            <div class="alert alert-info">
+
+                Use the following demo accounts to test
+                role-based authorization behavior.
+
+            </div>
+
+            <div class="timeline-list">
+
+                <li>
+                    <strong>Admin</strong><br>
+                    Username: <code>admin</code><br>
+                    Password: <code>admin123</code>
+                </li>
+
+                <li>
+                    <strong>Analyst</strong><br>
+                    Username: <code>analyst</code><br>
+                    Password: <code>analyst123</code>
+                </li>
+
+                <li>
+                    <strong>User</strong><br>
+                    Username: <code>user</code><br>
+                    Password: <code>user123</code>
+                </li>
+
+            </div>
+
+        </section>
+
+        <!-- EXPLOIT SECTION -->
+        <section class="lab-section security-card exploit-box">
+
+            <div class="section-header">
+
+                <h2>⚔️ Exploit</h2>
+
+                <span class="severity-badge high">
+                    High Risk
+                </span>
+
+            </div>
+
+            <ol>
+                <li>Open DevTools → Console</li>
+                <li>Run:
+                    <code>localStorage.setItem("isLoggedIn", "true")</code>
+                </li>
+                <li>Refresh page</li>
+                <li>Access without login</li>
+            </ol>
+
+            <div class="action-row">
+                <button id="autoExploitBtn" class="btn btn-danger">⚡ Auto Exploit</button>
+                <button id="fixateSessionBtn" class="btn btn-warning">🎯 Fix Session ID</button>
+                <button id="resetExploitBtn" class="btn btn-success">🔄 Reset Session</button>
+            </div>
+
+        </section>
+
+        <!-- IMPACT -->
+        <section class="lab-section security-card exploit-impact">
+
+            <div class="section-header">
+
+                <h2>💥 Impact</h2>
+
+                <span class="severity-badge medium">
+                    Medium Risk
+                </span>
+
+            </div>
+            <div class="alert alert-danger">
+
+                <strong>Potential Impact:</strong>
+
+                <ul>
+                    <li>Unauthorized access</li>
+                    <li>Session bypass</li>
+                    <li>Client-side authentication is insecure</li>
+                </ul>
+
+            </div>
+        </section>
+
+        <!-- BREAKDOWN -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🧠 Vulnerability Breakdown</h2>
+
+                <span class="severity-badge info">
+                    Educational
+                </span>
+
+            </div>
+
+            <div class="alert alert-info">
+
+                This lab intentionally demonstrates insecure authentication patterns
+                commonly found in poorly designed frontend applications.
+
+            </div>
+
+            <h3>🔴 Weak Authentication</h3>
+            <p>Login logic is fully client-side and can be modified.</p>
+
+            <pre><code>
+            login = function() {
+            document.getElementById("message").textContent = "Login successful";
+            }
+            </code></pre>
+
+            <h3>🟠 Insecure Session</h3>
+            <p>Session stored in localStorage can be manipulated.</p>
+
+            <pre><code>
+            localStorage.setItem("isLoggedIn", "true");
+            </code></pre>
+
+            <h3>🟠 Session Fixation</h3>
+            <p>
+            A session fixation vulnerability occurs when an application
+            accepts a session identifier supplied by an attacker instead
+            of generating a new one after authentication.
+            </p>
+
+            <p>
+            In vulnerable mode, the application reuses the existing
+            session ID stored in localStorage.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "sessionId",
+                "attacker-session-123"
+            );
+            </code></pre>
+
+            <p>
+            If the victim logs in using this fixed session,
+            the attacker already knows the authenticated session value.
+            </p>
+
+            <p>
+            Secure applications regenerate session identifiers
+            after successful authentication.
+            </p>            
+
+            <h3>🔴 Broken Route Protection</h3>
+
+            <p>
+            Protected routes should verify authentication
+            before granting access.
+            </p>
+
+            <p>
+            In vulnerable mode, dashboard pages can be
+            accessed directly without proper validation.
+            </p>
+
+            <pre><code>
+            /dashboard.html
+            </code></pre>
+
+            <h3>🟠 Privilege Escalation</h3>
+
+            <p>
+            The application trusts roles stored in localStorage.
+            Attackers can modify their own privileges.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "userRole",
+                "admin"
+            );
+            </code></pre>
+
+            <p>
+            This allows unauthorized administrative access.
+            </p>
+
+            <h3>🔴 Insecure JWT Trust</h3>
+
+            <p>
+            Applications should never trust JWT payloads
+            without proper signature validation.
+            </p>
+
+            <p>
+            Attackers may tamper with role information
+            if tokens are decoded but not verified.
+            </p>
+
+            <pre><code>
+            {
+                "role": "admin"
+            }
+            </code></pre>
+
+            <p>
+            If the backend accepts modified tokens
+            without verifying signatures,
+            attackers can escalate privileges.
+            </p>
+
+            <h3>🟢 Secure Mitigations</h3>
+
+            <ul>
+                <li>Regenerate sessions after login</li>
+                <li>Invalidate sessions during logout</li>
+                <li>Enforce authentication checks on protected routes</li>
+                <li>Validate authorization server-side</li>
+                <li>Never trust localStorage for security decisions</li>
+            </ul>
+
+        </section>
+
+        <script type="module" src="./js/auth/app.js"></script>
+
+    </div>
+</body>
+</html>

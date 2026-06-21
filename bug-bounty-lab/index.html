@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mini Bug Bounty Lab</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <header>
+            <h1>🧪 Mini Bug Bounty Lab</h1>
+            <p>Practice common web vulnerabilities in a safe environment</p>
+        </header>
+
+        <main>
+
+            <!-- DASHBOARD -->
+            <div class="app-layout">
+
+                <aside class="sidebar">
+                    <h2>⚡ Security Lab</h2>
+
+                    <button class="nav-item active" data-tab="xss">
+                        <span>🔴</span>
+                        XSS Lab
+                    </button>
+
+                    <button class="nav-item" data-tab="redirect">
+                        <span>🔁</span>
+                        Redirect Lab
+                    </button>
+
+                    <button class="nav-item" data-tab="clickjack">
+                        <span>🖱️</span>
+                        Clickjack Lab
+                    </button>
+
+                    <button class="nav-item" data-tab="scanner">
+                        <span>🧪</span>
+                        Scanner
+                    </button>
+                </aside>
+
+                <section class="workspace">
+
+                    <div class="topbar">
+
+                        <div>
+                            <h2>Security Workspace</h2>
+                            <p>Interactive vulnerability simulations</p>
+                        </div>
+
+                        <div class="workspace-status">
+                            <span>🟢 System Active</span>
+                        </div>
+
+                    </div>
+
+                    <div class="workspace-container">
+
+                        <!-- ================= XSS WORKSPACE ================= -->
+                        <div class="tab-section" id="xss">
+
+                            <div class="workspace-grid">
+
+                                <!-- LEFT -->
+                                <div class="lab-area">
+
+                                    <section class="lab-section xss-lab tool-panel threat-xss">
+
+                                        <h2>🔴 Stored XSS (Vulnerable)</h2>
+
+                                        <div class="tool-bar">
+
+                                            <select id="payloadSelector">
+
+                                                <option value="">
+                                                    Select Payload
+                                                </option>
+
+                                                <option value="alert">
+                                                    Alert Payload
+                                                </option>
+
+                                                <option value="img">
+                                                    Image onerror
+                                                </option>
+
+                                                <option value="style">
+                                                    DOM Manipulation
+                                                </option>
+
+                                            </select>
+
+                                            <div class="button-group">
+                                                <button id="runXSSBtn">
+                                                    ▶ Run
+                                                </button>
+
+                                                <button id="clearOutputBtn">
+                                                    ✖ Clear
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="panel">
+                                            <label>Request / Input</label>
+
+                                            <input
+                                                type="text"
+                                                id="commentInput"
+                                                placeholder="Enter payload..."
+                                            >
+                                        </div>
+
+                                        <div class="panel output">
+                                            <label>Response (Rendered Output)</label>
+                                            <div id="comments"></div>
+                                        </div>
+
+                                    </section>
+
+                                    <section class="lab-section tool-panel threat-xss">
+
+                                        <h2>🛡️ Stored XSS (Secure)</h2>
+
+                                        <input
+                                            type="text"
+                                            id="safeInput"
+                                            placeholder="Enter comment..."
+                                        >
+
+                                        <div class="button-group">
+                                            <button onclick="addSafeComment()">
+                                                Submit
+                                            </button>
+                                        </div>
+
+                                        <div id="safeComments"></div>
+
+                                    </section>
+
+                                </div>
+
+                                <!-- RIGHT -->
+                                <div class="right-panel">
+
+                                    <section class="lab-section tool-panel threat-xss">
+
+                                        <h2>🧠 Attack Analysis</h2>
+
+                                        <div class="scanner-status">
+                                            Status:
+                                            <span id="attackStatus">Idle</span>
+                                        </div>
+
+                                        <p id="xssMessage"></p>
+                                        <p id="xssExplanation"></p>
+
+                                    </section>
+                                </div>
+                            </div>
+
+                            <!-- XSS BREAKDOWN -->   
+                                <section class="lab-section security-breakdown threat-xss">
+
+                                    <h2>🧠 Security Breakdown: Stored XSS</h2>
+
+                                    <p><strong>Description:</strong><br>
+                                    In the vulnerable version, user input is inserted into the DOM using <code>innerHTML</code>,
+                                    which allows execution of arbitrary JavaScript.
+                                    </p>
+
+                                    <p><strong>How it works:</strong><br>
+                                    The browser treats the input as HTML instead of plain text. 
+                                    This allows attackers to inject scripts that execute when rendered.
+                                    </p>
+
+                                    <p><strong>Severity:</strong> Medium</p>
+
+                                    <p><strong>Impact:</strong><br>
+                                    An attacker can execute JavaScript in another user’s browser,
+                                    leading to session hijacking, data theft, or phishing attacks.
+                                    </p>
+
+                                    <p><strong>Example Payload:</strong></p>
+                                    <pre><code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></pre>
+
+                                    <p><strong>Fix:</strong><br>
+                                    Use <code>textContent</code> instead of <code>innerHTML</code> 
+                                    or sanitize user input before rendering.
+                                    </p>
+
+                                </section>  
+
+                        </div>
+
+                        <!-- ================= REDIRECT WORKSPACE ================= -->
+                        <div class="tab-section hidden" id="redirect">
+
+                            <section class="lab-section tool-panel threat-redirect">
+
+                                <h2>🔁 Open Redirect (Vulnerable)</h2>
+
+                                <input
+                                    type="text"
+                                    id="redirectInputVuln"
+                                    placeholder="Enter URL..."
+                                >
+
+                                <div class="button-group">
+                                    <button onclick="redirectUser()">Go</button>
+                                </div>
+
+                            </section>
+
+                            <section class="lab-section tool-panel threat-redirect">
+
+                                <h2>🛡️ Open Redirect (Secure)</h2>
+
+                                <p>
+                                    This version validates URLs against a whitelist
+                                    before redirecting the user.
+                                </p>
+
+                                <input
+                                    type="text"
+                                    id="redirectInputSafe"
+                                    placeholder="Enter URL..."
+                                >
+
+                                <div class="button-group">
+                                    <button onclick="safeRedirect()">
+                                        Go (Secure)
+                                    </button>
+                                </div>                                
+
+                            </section>
+
+                            <!-- REDIRECT BREAKDOWN -->
+                            <section class="lab-section security-breakdown threat-redirect">
+
+                                <h2>🧠 Security Breakdown: Open Redirect</h2>
+
+                                <p><strong>Description:</strong><br>
+                                The application redirects users based on untrusted input without validation.
+                                </p>
+
+                                <p><strong>How it works:</strong><br>
+                                Attackers craft a malicious URL that appears legitimate but redirects users
+                                to a different, potentially harmful site.
+                                </p>
+
+                                <p><strong>Severity:</strong> Medium</p>
+
+                                <p><strong>Impact:</strong><br>
+                                Can be used for phishing attacks by tricking users into trusting a legitimate domain
+                                before redirecting them to a malicious site.
+                                </p>
+
+                                <p><strong>Example Payload:</strong></p>
+                                <pre><code>https://your-site.com?redirect=https://evil.com</code></pre>
+
+                                <p><strong>Fix:</strong><br>
+                                Validate redirect URLs using a whitelist of trusted domains.
+                                </p>
+
+                            </section>                            
+
+                        </div>
+
+                        <!-- ================= CLICKJACK WORKSPACE ================= -->
+                        <div class="tab-section hidden" id="clickjack">
+
+                            <section class="lab-section tool-panel threat-clickjack">
+
+                                <h2>🖱️ Clickjacking (Simulation)</h2>
+
+                                <div class="clickjack-container">
+
+                                    <button class="fake-btn">
+                                        🎁 Claim Free Reward
+                                    </button>
+
+                                    <button
+                                        class="real-btn"
+                                        onclick="hiddenAction()"
+                                    >
+                                        Hidden Action
+                                    </button>
+
+                                </div>
+
+                            </section>
+
+                            <section class="lab-section tool-panel threat-clickjack">
+
+                                <h2>🛡️ Clickjacking (Secure)</h2>
+
+                                <p class="note">
+                                    This secure version prevents hidden overlays
+                                    and unintended click actions.
+                                </p>
+
+                                <div class="safe-clickjack">
+
+                                    <button onclick="safeAction()">
+                                        🎁 Claim Free Reward
+                                    </button>
+
+                                </div>
+
+                            </section>
+
+                            <!-- CLICKJACK BREAKDOWN -->
+                            <section class="lab-section security-breakdown threat-clickjack">
+
+                                <h2>🧠 Security Breakdown: Clickjacking</h2>
+
+                                <p><strong>Description:</strong><br>
+                                Users are tricked into clicking hidden or disguised elements.
+                                </p>
+
+                                <p><strong>How it works:</strong><br>
+                                A transparent or hidden layer is placed over a visible button,
+                                causing users to unknowingly trigger unintended actions.
+                                </p>
+
+                                <p><strong>Severity:</strong> Medium</p>
+
+                                <p><strong>Impact:</strong><br>
+                                Can lead to unauthorized actions such as form submissions,
+                                account changes, or unintended clicks.
+                                </p>
+
+                                <p><strong>Fix:</strong><br>
+                                Prevent UI overlay attacks and use protections like frame restrictions.
+                                </p>
+
+                            </section>                            
+
+                        </div>
+
+                        <!-- ================= SCANNER WORKSPACE ================= -->
+                        <div class="tab-section hidden" id="scanner">
+
+                            <div class="workspace-grid">
+
+                                <div class="lab-area">
+
+                                    <section class="lab-section tool-panel threat-scanner">
+
+                                        <h2>🧪 Detection Engine</h2>
+
+                                        <textarea
+                                            id="requestBox"
+                                            placeholder="Enter request or payload..."
+                                        ></textarea>
+
+                                        <div class="button-group">
+                                            <button onclick="analyzeRequest()">
+                                                Analyze
+                                            </button>
+                                            <button id="clearScanBtn">
+                                                Clear Scanner
+                                            </button>
+                                        </div>
+
+                                        <div class="scanner-status">
+                                            Status:
+                                            <span id="scanStatus">Idle</span>
+                                        </div>
+
+                                        <div id="scanSummary" class="scan-summary hidden"></div>
+                                        <div class="scanner-results" id="scannerResults">
+                                            <p class="placeholder">
+                                                No scan performed yet
+                                            </p>
+                                        </div>
+
+                                    </section>
+
+                                </div>
+
+                                <div class="right-panel">
+
+                                    <section class="lab-section tool-panel threat-scanner">
+
+                                        <h2>📜 Scan History</h2>
+
+                                        <div class="scan-history" id="scanHistory">
+                                            <p class="placeholder">
+                                                No scan history yet
+                                            </p>
+                                        </div>
+
+                                    </section>
+
+                                </div>
+
+                            </div>
+
+                            <section class="lab-section security-breakdown threat-scanner">
+
+                                <h2>🧠 Security Breakdown: Detection Engine</h2>
+
+                                <p>
+                                    This scanner simulates how security tools analyze
+                                    requests and payloads for suspicious patterns.
+                                </p>
+
+                                <p>
+                                    The engine checks for indicators commonly associated
+                                    with vulnerabilities such as:
+                                </p>
+
+                                <ul>
+                                    <li>XSS payload patterns</li>
+                                    <li>Unsafe DOM manipulation</li>
+                                    <li>Open redirect parameters</li>
+                                </ul>
+
+                                <h3>Example Test Payloads</h3>
+
+                                <div class="example-payloads">
+
+                                    <div class="example-payload-card">
+
+                                        <button class="copy-btn">
+                                            Copy
+                                        </button>
+
+                                        <pre>&lt;img src=x onerror=alert('XSS')&gt;</pre>
+
+                                    </div>
+
+                                    <div class="example-payload-card">
+
+                                        <button class="copy-btn">
+                                            Copy
+                                        </button>
+
+                                        <pre>https://site.com?redirect=https://evil.com</pre>
+
+                                    </div>
+
+                                    <div class="example-payload-card">
+
+                                        <button class="copy-btn">
+                                            Copy
+                                        </button>
+
+                                        <pre>document.write('Injected')</pre>
+
+                                    </div>
+                                </div>
+
+                                <p>
+                                    Real-world scanners use advanced parsing,
+                                    signatures, heuristics, and behavioral analysis
+                                    to identify vulnerabilities automatically.
+                                </p>
+
+                                <p>
+                                    This simulation demonstrates the core concept
+                                    behind automated vulnerability detection tools.
+                                </p>
+
+                            </section>
+                        </div>
+                    </div>
+                </section>    
+            </div>
+            
+            <div class="content-column">
+                <!-- EDUCATIONAL BREAKDOWNS -->
+                <section class="lab-section lab-intro">
+
+                    <h2>🧪 Bug Bounty Lab</h2>
+
+                    <p>
+                        This interactive lab simulates common client-side web vulnerabilities 
+                        including Cross-Site Scripting (XSS), Open Redirects, and Clickjacking.
+                    </p>
+
+                    <p>
+                        Each section demonstrates a vulnerable implementation, a secure version, 
+                        and a breakdown explaining how the vulnerability works, its impact, 
+                        and how to fix it.
+                    </p>
+
+                    <p><strong>How to use:</strong></p>
+                    <ul>
+                        <li>🧪 Try entering test payloads in vulnerable inputs</li>
+                        <li>⚠️ Observe how the application behaves</li>
+                        <li>🛡️ Compare with the secure implementation</li>
+                        <li>🧠 Read the breakdown to understand the vulnerability</li>
+                    </ul>
+
+                </section>
+
+                <section class="lab-section tester-notes">
+
+                    <h2>📌 Tester Notes</h2>
+
+                    <p>
+                        While building this lab, I focused on understanding how small 
+                        implementation choices (like using innerHTML or trusting user input) 
+                        can lead to real security vulnerabilities.
+                    </p>
+
+                    <p>
+                        This project helped reinforce how attackers think and how secure 
+                        coding practices can prevent exploitation.
+                    </p>
+
+                </section>
+            </div>               
+        </main>
+
+        <footer>
+            <p>© 2026 Rushikesh • Built with HTML, CSS & JavaScript</p>
+        </footer>
+
+        <script src="js/payloads.js"></script>
+        <script src="js/xss.js"></script>
+        <script src="js/redirect.js"></script>
+        <script src="js/scanner.js"></script>
+        <script src="js/clickjack.js"></script>
+        <script src="js/ui.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

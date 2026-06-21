@@ -1,0 +1,1 @@
+console.log("Mini Bug Bounty Lab Initialized");

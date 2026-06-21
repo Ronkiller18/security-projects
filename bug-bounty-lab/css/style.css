@@ -1,0 +1,1025 @@
+/* =========================================================
+   1. Global Reset / Base
+========================================================= */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+:root {
+
+    /* =====================================================
+       Colors
+    ===================================================== */
+
+    --bg-main: #0f172a;
+    --bg-card: #0d1117;
+    --bg-soft: #161b22;
+    --bg-hover: #1f2937;
+
+    --border: #30363d;
+    --border-soft: #334155;
+    --border-hover: #475569;
+
+    --text-main: #e2e8f0;
+    --text-soft: #94a3b8;
+    --text-muted: #8b949e;
+
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --purple: #a855f7;
+
+    /* =====================================================
+       Typography
+    ===================================================== */
+
+    --font-main: Arial, sans-serif;
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.9rem;
+    --text-md: 0.95rem;
+    --text-lg: 1.1rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 2.2rem;
+
+    --line-height-base: 1.6;
+    --line-height-tight: 1.4;
+
+    --letter-spacing-sm: 0.2px;
+    --letter-spacing-md: 0.3px;
+
+    /* =====================================================
+       Spacing/Padding
+    ===================================================== */
+
+    --space-xs: 6px;
+    --space-sm: 10px;
+    --space-md: 16px;
+    --space-lg: 20px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+
+    /* =====================================================
+       Radius
+    ===================================================== */
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 12px;
+    --radius-pill: 20px;
+
+    /* =====================================================
+       Shadows
+    ===================================================== */
+
+    --shadow-soft:
+        0 0 10px rgba(0,0,0,0.15);
+
+    --shadow-panel:
+        0 4px 12px rgba(0, 0, 0, 0.25);
+
+    --shadow-hover:
+        0 8px 20px rgba(0, 0, 0, 0.35);
+
+    --shadow-blue:
+        0 0 12px rgba(59, 130, 246, 0.15);
+
+    --shadow-active:
+        0 0 12px rgba(37, 99, 235, 0.35);
+
+    /* =====================================================
+       Motion
+    ===================================================== */
+
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.25s ease;
+}
+
+body {
+    font-family: var(--font-main);
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--bg-main);
+    color: var(--text-main);
+
+    line-height: var(--line-height-base);
+    letter-spacing: var(--letter-spacing-sm);
+}
+
+main {
+    flex: 1;
+    padding: var(--space-lg);
+}
+
+/* =========================================================
+   2. Utility Classes
+========================================================= */
+
+.tab-section {
+    animation: fadeIn var(--transition-normal);
+}
+
+.hidden {
+    display: none;
+}
+
+.safe {
+    color: var(--green);
+}
+
+/* =========================================================
+   3. Header / Footer
+========================================================= */
+
+header {
+    text-align: center;
+    padding: var(--space-lg);
+    background: #020617;
+}
+
+footer {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    text-align: center;
+    background: #1e293b;
+}
+
+/* =========================================================
+   4. Main Layout
+========================================================= */
+
+.app-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-lg);
+}
+
+.workspace {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-lg);
+}
+
+.lab-intro,
+.tester-notes {
+    margin-top: var(--space-lg);
+}
+
+.content-column {
+    margin-left: 240px;
+}
+
+/* =========================================================
+   5. Sidebar Navigation
+========================================================= */
+
+.sidebar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    height: fit-content;
+    position: sticky;
+    top: var(--space-lg);
+}
+
+.sidebar h2 {
+    margin: 0 0 var(--space-sm) 0;
+    font-size: var(--text-lg);
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+
+    padding: 12px 14px;
+
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: #c9d1d9;
+    font-size: var(--text-md);
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.nav-item:hover {
+    background: var(--bg-hover);
+    transform: translateX(3px);
+}
+
+.nav-item.active {
+    background: linear-gradient(
+        135deg,
+        var(--blue),
+        #1d4ed8
+    );
+
+    border-color: var(--blue-light);
+    color: white;
+    box-shadow: var(--shadow-active);
+}
+
+/* =========================================================
+   6. Topbar
+========================================================= */
+
+.topbar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+.topbar h2 {
+    margin-bottom: var(--space-xs);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+}
+
+/* =========================================================
+   7. Generic Sections
+========================================================= */
+
+.tool-panel {
+    position: relative;
+    overflow: hidden;
+
+    backdrop-filter: blur(6px);
+
+    transition:
+        transform var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.tool-panel::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,0.02),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+.lab-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+
+    padding: 18px;
+
+    margin-bottom: var(--space-lg);
+    transition:
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+    box-shadow: var(--shadow-panel);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-md);
+}
+
+.lab-section h2 {
+    margin: 0 0 14px 0;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-md);
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.primary-panel {
+    border: 1px solid var(--blue-light);
+    box-shadow: var(--shadow-blue);
+}
+
+.note,
+.scanner-status,
+.placeholder {
+    font-size: var(--text-sm);
+}
+
+.topbar p,
+header p,
+.note,
+.placeholder {
+    color: var(--text-soft);
+}
+
+.lab-section:hover {
+    transform: translateY(-1px);
+    border-color: var(--blue-light);
+    box-shadow: var(--shadow-hover);
+}
+
+/* =========================================================
+   Threat Themes
+========================================================= */
+
+/* ================= XSS ================= */
+
+.threat-xss {
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.threat-xss:hover {
+    box-shadow:
+        0 8px 22px rgba(239, 68, 68, 0.15);
+}
+
+.threat-xss h2 {
+    color: #f87171;
+}
+
+/* ================= Redirect ================= */
+
+.threat-redirect {
+    border-color: rgba(234, 179, 8, 0.35);
+}
+
+.threat-redirect:hover {
+    box-shadow:
+        0 8px 22px rgba(234, 179, 8, 0.12);
+}
+
+.threat-redirect h2 {
+    color: #facc15;
+}
+
+/* ================= Clickjacking ================= */
+
+.threat-clickjack {
+    border-color: rgba(168, 85, 247, 0.35);
+}
+
+.threat-clickjack:hover {
+    box-shadow:
+        0 8px 22px rgba(168, 85, 247, 0.14);
+}
+
+.threat-clickjack h2 {
+    color: #c084fc;
+}
+
+/* ================= Scanner ================= */
+
+.threat-scanner {
+    border-color: rgba(59, 130, 246, 0.35);
+}
+
+.threat-scanner:hover {
+    box-shadow:
+        0 8px 22px rgba(59, 130, 246, 0.15);
+}
+
+.threat-scanner h2 {
+    color: #60a5fa;
+}
+
+/* =========================================================
+   8. Forms / Inputs
+========================================================= */
+
+input,
+textarea,
+select {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    background: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+    font-size: var(--text-md);
+
+    line-height: 1.5;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: var(--blue-light);
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.15);
+
+    outline: none;
+}
+
+textarea {
+    min-height: 120px;
+
+    margin-top: var(--space-sm);
+
+    resize: vertical;
+}
+
+/* =========================================================
+   9. Buttons
+========================================================= */
+
+button {
+    padding: 10px 14px;
+
+    background: var(--bg-soft);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    min-height: 40px;
+}
+
+button:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.button-group {
+    display: flex;
+    gap: var(--space-sm);
+
+    margin-top: 12px;
+
+    flex-wrap: wrap;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid rgba(59, 130, 246, 0.8);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   10. Panels
+========================================================= */
+
+.panel {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    padding: 14px;
+    margin-top: 12px;
+
+    transition: border-color var(--transition-fast);
+}
+
+.panel:hover {
+    border-color: var(--border-hover);
+}
+
+.panel label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+
+.output {
+    min-height: 60px;
+}
+
+.info {
+    font-size: var(--text-sm);
+    color: #9ecbff;
+}
+
+#comments,
+#safeComments {
+    margin-top: var(--space-sm);
+}
+
+/* =========================================================
+   11. Tool Bar
+========================================================= */
+
+.tool-bar {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.tool-bar select,
+.tool-bar button {
+    background: var(--bg-soft);
+    color: #c9d1d9;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    padding: 8px 12px;
+}
+
+/* =========================================================
+   12. Payload Library
+========================================================= */
+
+.payload-library {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+.payload-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    padding: 12px;
+
+    transition:
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.payload-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+}
+
+.payload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.payload-header h3 {
+    margin: 0;
+
+    font-size: 1rem;
+}
+
+.payload-card p {
+    font-size: var(--text-sm);
+    color: var(--text-soft);
+    margin-top: var(--space-xs);
+}
+
+.load-payload-btn {
+    width: 100%;
+    margin-top: var(--space-sm);
+}
+
+/* =========================================================
+   13. Severity Badges
+========================================================= */
+
+.severity-badge {
+    padding: 4px 8px;
+
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    font-weight: bold;
+}
+
+.severity-badge.high {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--red);
+}
+
+.severity-badge.medium {
+    background: rgba(234, 179, 8, 0.2);
+    color: var(--yellow);
+}
+
+/* =========================================================
+   14. Clickjacking Demo
+========================================================= */
+
+.clickjack-container {
+    position: relative;
+    width: 250px;
+    margin-top: var(--space-sm);
+}
+
+.fake-btn {
+    width: 100%;
+    padding: var(--space-sm);
+    background: var(--green);
+    color: black;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+.real-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 3;
+    cursor: pointer;
+    color: transparent;
+    background: transparent;
+    border: none;
+}
+
+.real-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    opacity: 0;
+}
+
+.safe-clickjack button {
+    width: 250px;
+    background: var(--blue-light);
+    color: white;
+    border: none;
+}
+
+/* =========================================================
+   15. Scanner / Detection Engine
+========================================================= */
+
+.scanner-results {
+    margin-top: var(--space-md);
+}
+
+.scanner-status {
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.scan-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.scan-card.high {
+    border-left: 4px solid var(--red);
+}
+
+.scan-card.medium {
+    border-left: 4px solid var(--yellow);
+}
+
+.scan-card:hover {
+    border-color: var(--border-hover);
+
+    transform: translateY(-1px);
+
+    transition:
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.scan-header {
+    display: flex;
+    align-items: center;
+
+    gap: var(--space-sm);
+
+    font-weight: bold;
+}
+
+.scan-card p {
+    margin: 6px 0;
+}
+
+.scan-severity {
+    font-weight: bold;
+}
+
+.scan-recommendation {
+    margin-top: var(--space-sm);
+
+    padding-top: var(--space-sm);
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-main);
+}
+
+/* =========================================================
+   Expandable Findings
+========================================================= */
+
+.scan-toggle {
+    padding: 6px 10px;
+
+    min-height: auto;
+
+    font-size: var(--text-xs);
+}
+
+.scan-details {
+    margin-top: var(--space-sm);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    overflow: hidden;
+}
+
+.scan-details.hidden {
+    display: none;
+}
+
+.scan-meta {
+    margin: 0;
+
+    color: var(--text-soft);
+
+    font-size: var(--text-sm);
+}
+
+/* =========================================================
+   Scanner Summary
+========================================================= */
+
+.scan-summary {
+    margin-bottom: var(--space-md);
+}
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(120px, 1fr));
+
+    gap: var(--space-sm);
+}
+
+.summary-card {
+    background: var(--bg-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    padding: var(--space-md);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-xs);
+}
+
+.summary-card strong {
+    line-height: 1;
+}
+
+.summary-card span {
+    color: var(--text-soft);
+
+    font-size: var(--text-sm);
+}
+
+.summary-card strong {
+    font-size: var(--text-xl);
+}
+
+/* =========================================================
+   16. Scan History
+========================================================= */
+
+.scan-history {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.history-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border-hover);
+    border-radius: var(--radius-sm);
+    padding:  var(--space-sm);
+}
+
+.history-card.high {
+    border-left-color: var(--red);
+}
+
+.history-card.medium {
+    border-left-color: var(--yellow);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-sm);
+}
+
+/* =========================================================
+   Example Payloads
+========================================================= */
+
+.example-payloads {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--space-sm);
+
+    margin-top: var(--space-sm);
+    min-width: 0;
+}
+
+.example-payload-card {
+    position: relative;
+
+    width: 100%;
+}
+
+.example-payload-card pre {
+    margin: 0;
+
+    padding: var(--space-sm);
+
+    padding-right: 80px;
+
+    background: var(--bg-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text-main);
+
+    font-size: var(--text-sm);
+
+    font-family: monospace;
+
+    line-height: 1.5;
+
+    white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+
+    min-width: 0;
+
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+.copy-btn {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    min-height: unset;
+
+    padding: 5px 10px;
+
+    font-size: var(--text-xs);
+
+    white-space: nowrap;
+
+    z-index: 2;
+}
+
+/* =========================================================
+   17. XSS Analysis Text
+========================================================= */
+
+#xssExplanation {
+
+    margin-top: 8px;
+
+    font-size: var(--text-sm);
+    color: #aaa;
+}
+
+/* =========================================================
+   18. Content Readability
+========================================================= */
+
+.security-breakdown p,
+.lab-intro p,
+.tester-notes p {
+    max-width: 75ch;
+}
+
+/* =========================================================
+   19. Animations
+========================================================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   20. Responsive Design
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .workspace-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+        order: -1;
+    }
+
+    .tool-bar,
+    .button-group {
+        flex-direction: column;
+    }
+
+    .topbar h2 {
+        font-size: 1.8rem;
+    }
+
+    .clickjack-container,
+    .safe-clickjack button {
+        width: 100%;
+    }
+}

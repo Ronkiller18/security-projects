@@ -1,0 +1,621 @@
+/* ============================================
+   learn.css — Documentation page layout,
+   sidebar TOC, doc sections, code blocks,
+   copy buttons, callouts, risk table
+   ============================================ */
+
+/* ============================================
+   PAGE HERO — tighter, closer to header
+   ============================================ */
+.doc-hero {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    padding: 1.75rem 2rem 1.5rem;
+}
+
+.doc-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.doc-hero-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+}
+
+.doc-hero-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.doc-hero-sub {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ============================================
+   TWO-COLUMN LAYOUT: sidebar + content
+   ============================================ */
+.doc-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.75rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.75rem 2rem 4rem;
+    align-items: start;
+    min-width: 0;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.doc-sidebar {
+    position: sticky;
+    /* Centred stacked header is ~100px tall + 1.75rem page padding */
+    top: 115px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    /* Never taller than the viewport — scroll within the sidebar itself */
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+    /* Hide scrollbar visually but keep it functional */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-light) transparent;
+}
+
+/* TOC panel + quick ref panel */
+.toc-panel,
+.quick-ref-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 0.9rem;
+}
+
+.toc-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.65rem;
+}
+
+.toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+}
+
+.toc-link {
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.28rem 0.55rem;
+    border-radius: var(--radius-sm);
+    border-left: 2px solid transparent;
+    transition: all var(--transition);
+    display: block;
+    line-height: 1.4;
+}
+
+.toc-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    opacity: 1;
+    border-left-color: var(--border-light);
+}
+
+.toc-link.active {
+    color: var(--accent);
+    background: var(--accent-glow);
+    border-left-color: var(--accent);
+    font-weight: 700;
+}
+
+/* Quick reference cards — single column, horizontal layout per card */
+.qr-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.qr-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+    transition: border-color var(--transition), background var(--transition);
+    text-decoration: none;
+    min-width: 0;
+}
+
+.qr-card:hover {
+    border-color: var(--accent-dim);
+    background: var(--bg-hover);
+    opacity: 1;
+}
+
+.qr-tag {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid var(--accent-dim);
+    border-radius: 3px;
+    padding: 0.1rem 0.3rem;
+    white-space: nowrap;
+    flex-shrink: 0;     /* tag never wraps or shrinks */
+}
+
+.qr-desc {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+    /* truncate if too long — sidebar is only 200px */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+/* ============================================
+   DOC SECTIONS
+   ============================================ */
+.doc-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;        /* consistent gap instead of margin-bottom */
+    min-width: 0;
+}
+
+.doc-section {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* Section header bar */
+.doc-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+}
+
+.doc-section-number {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.doc-section-header h2 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+/* Section body — generous gap between each content block */
+.doc-section-body {
+    padding: 1.25rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.doc-section-body p {
+    font-size: 0.81rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.doc-section-body h3 {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin: 0;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ---- Topic tags (XSS, DOM, HDR, etc.) ---- */
+.doc-tag {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.4rem;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.doc-tag--high {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.doc-tag--medium {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.doc-tag--low {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+/* ---- Meta row: severity badge + score ---- */
+.doc-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.85rem;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.doc-severity {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 0.18rem 0.45rem;
+    border-radius: 3px;
+}
+
+.doc-severity--high {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.doc-severity--medium {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.doc-severity--low {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.doc-score {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+}
+
+/* ---- Lists ---- */
+.doc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0;
+    margin: 0;
+}
+
+.doc-list li {
+    font-size: 0.79rem;
+    color: var(--text-secondary);
+    padding-left: 1.1rem;
+    position: relative;
+    line-height: 1.6;
+}
+
+.doc-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* ---- Inline code ---- */
+.inline-code {
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.05rem 0.35rem;
+    color: var(--accent);
+}
+
+/* ============================================
+   CODE BLOCKS WITH COPY BUTTON
+   ============================================ */
+.code-block-wrapper {
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+}
+
+.code-lang {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* Code pre — scrolls inside wrapper, never pushes layout */
+.code-block {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;       /* slightly smaller — prevents overflow on mid screens */
+    color: var(--text-primary);
+    line-height: 1.75;
+    overflow-x: auto;
+    white-space: pre;
+    background: transparent;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.code-block code {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* ============================================
+   COPY BUTTON — text only, no icons
+   ============================================ */
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.65rem;
+    font-size: 0.63rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    transform: none;
+}
+
+.copy-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    transform: none;
+    box-shadow: none;
+}
+
+.copy-btn--success {
+    color: var(--risk-low) !important;
+    border-color: rgba(52, 211, 153, 0.35) !important;
+    background: var(--risk-low-bg) !important;
+}
+
+/* ============================================
+   CALLOUT BOXES
+   ============================================ */
+.doc-callout {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    border-left: 3px solid;
+}
+
+.doc-callout strong {
+    font-weight: 700;
+    margin-right: 0.25rem;
+}
+
+.doc-callout--info {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--text-secondary);
+}
+
+.doc-callout--info strong { color: var(--accent); }
+
+.doc-callout--warning {
+    background: var(--risk-medium-bg);
+    border-color: var(--risk-medium);
+    color: var(--text-secondary);
+}
+
+.doc-callout--warning strong { color: var(--risk-medium); }
+
+/* ============================================
+   RISK SCORING TABLE
+   ============================================ */
+.risk-table {
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.risk-row {
+    display: grid;
+    grid-template-columns: 110px 70px 1fr;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    gap: 1rem;
+    transition: background var(--transition);
+}
+
+.risk-row:last-child { border-bottom: none; }
+.risk-row:not(.risk-row--header):hover { background: var(--bg-hover); }
+
+.risk-row--header {
+    background: var(--bg-base);
+    padding: 0.4rem 1rem;
+}
+
+.risk-row--header span {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.risk-points {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.risk-points--high   { color: var(--risk-high); }
+.risk-points--medium { color: var(--risk-medium); }
+.risk-points--low    { color: var(--risk-low); }
+
+.risk-example {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ============================================
+   RESPONSIVE — same breakpoints as dashboard.css
+   global.css owns body overflow-x, sticky header,
+   footer — no overrides here
+   ============================================ */
+
+/* ---- 960px: sidebar above content ---- */
+@media (max-width: 960px) {
+    .doc-layout {
+        grid-template-columns: 1fr;
+        padding: 1.25rem 1rem 3rem;
+        gap: 1.25rem;
+    }
+
+    .doc-sidebar {
+        position: static;
+        /* side-by-side on tablet */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    /* TOC nav scrolls horizontally on tablet sidebar */
+    .toc-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .toc-link {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .toc-link.active {
+        border-left: none;
+        border-bottom-color: var(--accent);
+    }
+
+    /* Quick ref stays single column — already compact enough */
+
+    .doc-hero       { padding: 1.25rem 1rem 1rem; }
+    .doc-hero-title { font-size: 1.3rem; }
+
+    .risk-row {
+        grid-template-columns: 100px 65px 1fr;
+        gap: 0.5rem;
+    }
+}
+
+/* ---- 600px: single column ---- */
+@media (max-width: 600px) {
+    .doc-layout { padding: 0.75rem 0.75rem 2rem; }
+
+    .doc-sidebar { grid-template-columns: 1fr; }
+
+    .doc-section-header { padding: 0.8rem 1rem; }
+    .doc-section-body   { padding: 1rem; }
+
+    .doc-hero-title { font-size: 1.1rem; }
+    .doc-hero-sub   { font-size: 0.76rem; }
+
+    /* Risk table collapses to single column */
+    .risk-row {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+        padding: 0.7rem 0.85rem;
+    }
+
+    .risk-row--header { display: none; }
+
+    .doc-section-body { gap: 0.85rem; }
+}

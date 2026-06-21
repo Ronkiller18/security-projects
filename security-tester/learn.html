@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation — Client-Side Security Tester</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/learn.css">
+</head>
+
+<body>
+
+    <!-- ===================================== -->
+    <!-- Header                               -->
+    <!-- ===================================== -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <h1>Client-Side Security Tester</h1>
+                <span class="header-tagline">Educational Security Analysis Platform</span>
+            </div>
+            <div class="header-right">
+                <div class="platform-status">
+                    <span class="status-dot"></span>
+                    <span>Detection Engine</span>
+                    <strong>Operational</strong>
+                </div>
+                <nav class="top-nav">
+                    <a href="index.html" class="nav-link">Dashboard</a>
+                    <a href="learn.html" class="nav-link active">Documentation</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================== -->
+    <!-- Page Hero                            -->
+    <!-- ===================================== -->
+    <div class="doc-hero">
+        <div class="doc-hero-inner">
+            <p class="doc-hero-label">Reference</p>
+            <h2 class="doc-hero-title">Security Documentation</h2>
+            <p class="doc-hero-sub">Technical overview of all analyzers, detection logic, risk scoring, and mitigation guidance used throughout the project.</p>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Main Content                         -->
+    <!-- ===================================== -->
+    <main class="doc-layout">
+
+        <!-- ======================== -->
+        <!-- Sidebar                  -->
+        <!-- ======================== -->
+        <aside class="doc-sidebar">
+
+            <div class="toc-panel">
+                <p class="toc-label">On this page</p>
+                <nav class="toc-nav">
+                    <a href="#overview"  class="toc-link active">Project Overview</a>
+                    <a href="#xss"       class="toc-link">Cross-Site Scripting</a>
+                    <a href="#dom-xss"   class="toc-link">DOM-Based XSS</a>
+                    <a href="#phishing"  class="toc-link">URL Reputation</a>
+                    <a href="#jwt"       class="toc-link">JWT Analysis</a>
+                    <a href="#csp"       class="toc-link">Content Security Policy</a>
+                    <a href="#headers"   class="toc-link">Security Headers</a>
+                    <a href="#cookies"   class="toc-link">Cookie Security</a>
+                    <a href="#storage"   class="toc-link">Storage Security</a>
+                    <a href="#risk"      class="toc-link">Risk Scoring</a>
+                </nav>
+            </div>
+
+            <div class="quick-ref-panel">
+                <p class="toc-label">Quick Reference</p>
+                <div class="qr-grid">
+                    <a href="#xss"      class="qr-card"><span class="qr-tag">XSS</span><span class="qr-desc">Script injection</span></a>
+                    <a href="#dom-xss"  class="qr-card"><span class="qr-tag">DOM</span><span class="qr-desc">Sink exploitation</span></a>
+                    <a href="#phishing" class="qr-card"><span class="qr-tag">URL</span><span class="qr-desc">Phishing & reputation</span></a>
+                    <a href="#jwt"      class="qr-card"><span class="qr-tag">JWT</span><span class="qr-desc">Token security</span></a>
+                    <a href="#csp"      class="qr-card"><span class="qr-tag">CSP</span><span class="qr-desc">Execution policy</span></a>
+                    <a href="#headers"  class="qr-card"><span class="qr-tag">HDR</span><span class="qr-desc">HTTP headers</span></a>
+                    <a href="#cookies"  class="qr-card"><span class="qr-tag">CKI</span><span class="qr-desc">Cookie attributes</span></a>
+                    <a href="#storage"  class="qr-card"><span class="qr-tag">STR</span><span class="qr-desc">localStorage / session</span></a>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- ======================== -->
+        <!-- Doc Sections             -->
+        <!-- ======================== -->
+        <div class="doc-content">
+
+            <!-- ======================== -->
+            <!-- 00 — Project Overview    -->
+            <!-- ======================== -->
+            <section class="doc-section" id="overview">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">00</span>
+                    <h2>Project Overview</h2>
+                </div>
+                <div class="doc-section-body">
+                    <p>Client-Side Security Tester is a browser-based educational security analysis tool designed to demonstrate common client-side security risks. The project performs heuristic analysis against user-supplied input and highlights potentially dangerous patterns commonly associated with web application attacks.</p>
+                    <p>All findings are heuristic and intended for learning purposes only. They should not replace a professional security assessment.</p>
+
+                    <h3>Supported Analyzers</h3>
+                    <ul class="doc-list">
+                        <li>XSS Detection — script injection patterns and event handlers</li>
+                        <li>DOM Sink Analysis — dangerous client-side APIs</li>
+                        <li>URL Reputation — phishing patterns and domain analysis</li>
+                        <li>JWT Inspection — token structure and security claims</li>
+                        <li>Content Security Policy Review — directive strength</li>
+                        <li>Security Header Analysis — HTTP response header coverage</li>
+                        <li>Cookie Security Analysis — Set-Cookie attribute checks</li>
+                        <li>Storage Security Analysis — localStorage and sessionStorage usage</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 01 — XSS                 -->
+            <!-- ======================== -->
+            <section class="doc-section" id="xss">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">01</span>
+                    <h2>Cross-Site Scripting <span class="doc-tag doc-tag--high">XSS</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High Severity</span>
+                        <span class="doc-score">+40 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>Cross-Site Scripting occurs when untrusted input is interpreted as executable JavaScript by a browser. Attackers inject malicious scripts that run in the context of a victim's session.</p>
+
+                    <h3>Why It Matters</h3>
+                    <p>Successful XSS attacks can lead to session theft, account compromise, credential harvesting, and malicious actions performed on behalf of users without their knowledge.</p>
+
+                    <h3>Example Payloads</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">HTML / JS</span>
+                            <button class="copy-btn" data-target="xss-payloads">Copy</button>
+                        </div>
+                        <pre class="code-block" id="xss-payloads"><code>&lt;script&gt;alert(1)&lt;/script&gt;
+&lt;img src=x onerror=alert(1)&gt;
+&lt;svg onload=alert(1)&gt;
+&lt;body onload=alert(document.cookie)&gt;
+&lt;iframe src=x&gt;
+javascript:alert(1)</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Validate and sanitize all user input server-side</li>
+                        <li>Escape HTML output before rendering</li>
+                        <li>Implement a strict Content Security Policy</li>
+                        <li>Avoid rendering raw user-controlled content in the DOM</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 02 — DOM XSS             -->
+            <!-- ======================== -->
+            <section class="doc-section" id="dom-xss">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">02</span>
+                    <h2>DOM-Based XSS <span class="doc-tag doc-tag--high">DOM</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High Severity</span>
+                        <span class="doc-score">+40 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>DOM XSS occurs when JavaScript reads attacker-controlled input and inserts it directly into dangerous browser APIs — entirely client-side, with no server interaction required.</p>
+
+                    <h3>Why It Matters</h3>
+                    <p>Vulnerable DOM sinks may allow attackers to execute arbitrary JavaScript without interacting with a backend server, bypassing many traditional server-side protections.</p>
+
+                    <h3>Dangerous Sinks Detected</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">JavaScript</span>
+                            <button class="copy-btn" data-target="dom-sinks">Copy</button>
+                        </div>
+                        <pre class="code-block" id="dom-sinks"><code>element.innerHTML = userInput
+document.write(userInput)
+eval(userInput)
+element.insertAdjacentHTML('beforeend', userInput)
+location.href = userInput
+location.assign(userInput)
+location.replace(userInput)
+setTimeout(userInput, 0)</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Prefer <code class="inline-code">textContent</code> over <code class="inline-code">innerHTML</code></li>
+                        <li>Never pass user input to <code class="inline-code">eval()</code></li>
+                        <li>Sanitize user-controlled data before DOM insertion</li>
+                        <li>Use secure templating systems with auto-escaping</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 03 — URL Reputation      -->
+            <!-- ======================== -->
+            <section class="doc-section" id="phishing">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">03</span>
+                    <h2>URL Reputation &amp; Phishing <span class="doc-tag doc-tag--high">URL</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High / Medium Severity</span>
+                        <span class="doc-score">+40 or +20 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>The URL Reputation analyzer runs six independent checks against a pasted URL. Each check produces its own finding — a single URL can trigger multiple findings at different severities.</p>
+
+                    <h3>Checks Performed</h3>
+                    <ul class="doc-list">
+                        <li><strong>Raw IP as domain</strong> — legitimate services never use bare IP addresses as their hostname</li>
+                        <li><strong>Excessive subdomains</strong> — three or more subdomain levels suggest domain spoofing</li>
+                        <li><strong>Brand keyword + suspicious TLD</strong> — e.g. paypal-secure.tk combines trust-bait with a free throwaway domain</li>
+                        <li><strong>Action keywords + suspicious TLD</strong> — login/verify/secure combined with .xyz, .tk, .ml, .ga, .cf</li>
+                        <li><strong>URL-encoded characters in hostname</strong> — percent-encoding used to obscure the real destination</li>
+                        <li><strong>Homograph characters</strong> — non-ASCII lookalike letters used to impersonate trusted domains</li>
+                    </ul>
+
+                    <h3>Example Suspicious URLs</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">URLs</span>
+                            <button class="copy-btn" data-target="phishing-urls">Copy</button>
+                        </div>
+                        <pre class="code-block" id="phishing-urls"><code>http://192.168.1.1/login
+http://secure.paypal.com.verify.login.xyz/
+https://paypal-secure.tk
+https://secure-login-update.xyz
+http://pay%70al.com/login</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Verify the registrable domain — the last two parts before the TLD</li>
+                        <li>Never trust login links received via email or SMS</li>
+                        <li>Check for percent-encoding by decoding the URL fully before visiting</li>
+                        <li>Enable multi-factor authentication to limit damage from credential theft</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 04 — JWT                 -->
+            <!-- ======================== -->
+            <section class="doc-section" id="jwt">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">04</span>
+                    <h2>JWT Security Analysis <span class="doc-tag doc-tag--medium">JWT</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--medium">Medium / High Severity</span>
+                        <span class="doc-score">+20 or +40 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>JSON Web Tokens are commonly used for authentication and authorization in modern web applications. Misconfigured tokens can expose sensitive data or allow signature bypass entirely.</p>
+
+                    <h3>Detected Issues</h3>
+                    <ul class="doc-list">
+                        <li><code class="inline-code">alg: none</code> — signature verification bypass (case-insensitive check)</li>
+                        <li>Missing <code class="inline-code">exp</code> claim — tokens never expire</li>
+                        <li>Sensitive key names in payload — <code class="inline-code">password</code>, <code class="inline-code">secret</code>, <code class="inline-code">apikey</code></li>
+                    </ul>
+
+                    <h3>Example Vulnerable Token</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">JWT</span>
+                            <button class="copy-btn" data-target="jwt-token">Copy</button>
+                        </div>
+                        <pre class="code-block" id="jwt-token"><code>eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4iLCJwYXNzd29yZCI6InNlY3JldCJ9.</code></pre>
+                    </div>
+
+                    <div class="doc-callout doc-callout--info">
+                        <strong>Note:</strong> The token above decodes to <code class="inline-code">alg: none</code> with <code class="inline-code">password: "secret"</code> in the payload — both critical issues detectable by the JWT Analyzer.
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Always require and verify token signatures using RS256 or HS256</li>
+                        <li>Include and validate <code class="inline-code">exp</code> claims on every token</li>
+                        <li>Never store secrets, passwords, or API keys in token payloads</li>
+                        <li>Rotate signing keys regularly</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 05 — CSP                 -->
+            <!-- ======================== -->
+            <section class="doc-section" id="csp">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">05</span>
+                    <h2>Content Security Policy <span class="doc-tag doc-tag--medium">CSP</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High / Medium Severity</span>
+                        <span class="doc-score">+40 or +20 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>CSP is a browser security mechanism used to restrict the sources from which content may be loaded and executed. A weak or missing CSP leaves users exposed to XSS and data injection attacks.</p>
+
+                    <h3>Detected Issues</h3>
+                    <ul class="doc-list">
+                        <li><code class="inline-code">unsafe-inline</code> — allows inline script execution</li>
+                        <li><code class="inline-code">unsafe-eval</code> — allows eval() and similar dynamic execution</li>
+                        <li>Wildcard <code class="inline-code">script-src</code> — scripts loadable from any domain</li>
+                        <li>Wildcard <code class="inline-code">object-src</code> — unsafe embedded content allowed</li>
+                        <li>Missing <code class="inline-code">frame-ancestors</code> — clickjacking risk</li>
+                    </ul>
+
+                    <h3>Weak Policy</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">CSP Header</span>
+                            <button class="copy-btn" data-target="csp-weak">Copy</button>
+                        </div>
+                        <pre class="code-block" id="csp-weak"><code>default-src 'self';
+script-src 'unsafe-inline' *;
+object-src *;</code></pre>
+                    </div>
+
+                    <h3>Strong Policy</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">CSP Header</span>
+                            <button class="copy-btn" data-target="csp-strong">Copy</button>
+                        </div>
+                        <pre class="code-block" id="csp-strong"><code>default-src 'none';
+script-src 'self' 'nonce-{random}';
+style-src 'self';
+img-src 'self' data:;
+font-src 'self';
+connect-src 'self';
+frame-ancestors 'none';
+base-uri 'self';
+form-action 'self';</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Use nonces or hashes instead of <code class="inline-code">unsafe-inline</code></li>
+                        <li>Never use <code class="inline-code">unsafe-eval</code> in production</li>
+                        <li>Avoid wildcard sources for scripts or objects</li>
+                        <li>Always define <code class="inline-code">frame-ancestors 'none'</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 06 — Security Headers    -->
+            <!-- ======================== -->
+            <section class="doc-section" id="headers">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">06</span>
+                    <h2>Security Header Analysis <span class="doc-tag doc-tag--high">HDR</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High / Medium / Low</span>
+                        <span class="doc-score">+40, +20 or +10 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>Paste raw HTTP response headers to check for missing or misconfigured security directives. Each header is checked independently — a single response can trigger multiple findings.</p>
+
+                    <h3>Headers Checked</h3>
+                    <ul class="doc-list">
+                        <li><strong>Content-Security-Policy</strong> — missing entirely (High)</li>
+                        <li><strong>Strict-Transport-Security</strong> — missing (High), weak max-age under 6 months (Medium), missing includeSubDomains (Low)</li>
+                        <li><strong>X-Frame-Options</strong> — missing (Medium), invalid value not DENY or SAMEORIGIN (Medium)</li>
+                        <li><strong>X-Content-Type-Options</strong> — missing or not set to nosniff (Medium)</li>
+                        <li><strong>Referrer-Policy</strong> — missing (Low), weak value (Low)</li>
+                        <li><strong>Permissions-Policy</strong> — missing (Low)</li>
+                        <li><strong>X-XSS-Protection</strong> — misconfigured legacy value (Low)</li>
+                        <li><strong>Cache-Control</strong> — missing no-store/no-cache on potentially sensitive response (Low)</li>
+                    </ul>
+
+                    <h3>Example — Missing Headers</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">HTTP Headers</span>
+                            <button class="copy-btn" data-target="headers-weak">Copy</button>
+                        </div>
+                        <pre class="code-block" id="headers-weak"><code>X-Frame-Options: ALLOW
+Cache-Control: public
+X-XSS-Protection: 1</code></pre>
+                    </div>
+
+                    <h3>Example — Strong Headers</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">HTTP Headers</span>
+                            <button class="copy-btn" data-target="headers-strong">Copy</button>
+                        </div>
+                        <pre class="code-block" id="headers-strong"><code>Content-Security-Policy: default-src 'self'
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Add all six security headers to every HTTP response</li>
+                        <li>Set HSTS max-age to at least 31536000 (one year)</li>
+                        <li>Set X-Frame-Options to DENY unless same-origin framing is needed</li>
+                        <li>Use Referrer-Policy: strict-origin-when-cross-origin as a safe default</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 07 — Cookie Security     -->
+            <!-- ======================== -->
+            <section class="doc-section" id="cookies">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">07</span>
+                    <h2>Cookie Security Analysis <span class="doc-tag doc-tag--high">CKI</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High / Medium / Low</span>
+                        <span class="doc-score">+40, +20 or +10 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>Paste one or more Set-Cookie header lines to check each cookie's security attributes. Every cookie is analyzed independently — a single paste of three cookies can produce fifteen or more findings.</p>
+
+                    <h3>Checks Per Cookie</h3>
+                    <ul class="doc-list">
+                        <li><strong>HttpOnly</strong> — missing means JavaScript can read the cookie via <code class="inline-code">document.cookie</code> (High if sensitive name, Medium otherwise)</li>
+                        <li><strong>Secure</strong> — missing means the cookie transmits over unencrypted HTTP (High if sensitive name, Medium otherwise)</li>
+                        <li><strong>SameSite</strong> — missing exposes the cookie to CSRF attacks (Medium)</li>
+                        <li><strong>SameSite=None without Secure</strong> — browsers reject this combination and it enables CSRF (High)</li>
+                        <li><strong>Both flags missing on sensitive cookie</strong> — additional High finding when name suggests auth data</li>
+                        <li><strong>No expiry</strong> — session cookie persists on shared devices (Low)</li>
+                    </ul>
+
+                    <h3>Sensitive Cookie Names</h3>
+                    <p>The analyzer automatically boosts severity for cookies with names matching: <code class="inline-code">session</code>, <code class="inline-code">token</code>, <code class="inline-code">auth</code>, <code class="inline-code">jwt</code>, <code class="inline-code">user</code>, <code class="inline-code">admin</code>, <code class="inline-code">key</code>, <code class="inline-code">secret</code>, <code class="inline-code">pass</code>, <code class="inline-code">cred</code>.</p>
+
+                    <h3>Example — Insecure Cookies</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">Set-Cookie</span>
+                            <button class="copy-btn" data-target="cookies-weak">Copy</button>
+                        </div>
+                        <pre class="code-block" id="cookies-weak"><code>Set-Cookie: session=abc123; Path=/
+Set-Cookie: prefs=dark; SameSite=None</code></pre>
+                    </div>
+
+                    <h3>Example — Secure Cookies</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">Set-Cookie</span>
+                            <button class="copy-btn" data-target="cookies-strong">Copy</button>
+                        </div>
+                        <pre class="code-block" id="cookies-strong"><code>Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Strict; Max-Age=3600; Path=/
+Set-Cookie: prefs=dark; SameSite=Lax; Max-Age=2592000; Path=/</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Always set HttpOnly and Secure on authentication and session cookies</li>
+                        <li>Use SameSite=Strict for authentication cookies</li>
+                        <li>Never use SameSite=None without also setting the Secure flag</li>
+                        <li>Set explicit Max-Age or Expires on all cookies</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 08 — Storage Security    -->
+            <!-- ======================== -->
+            <section class="doc-section" id="storage">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">08</span>
+                    <h2>Storage Security Analysis <span class="doc-tag doc-tag--high">STR</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High / Medium / Low</span>
+                        <span class="doc-score">+40, +20 or +10 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>Paste JavaScript code that uses <code class="inline-code">localStorage</code> or <code class="inline-code">sessionStorage</code> to detect sensitive data being stored client-side. Both analyzers use identical detection logic — the tool label distinguishes the source.</p>
+
+                    <h3>Checks Performed</h3>
+                    <ul class="doc-list">
+                        <li><strong>Sensitive key in setItem</strong> — keys like token, auth, jwt, session, password, secret trigger a High finding</li>
+                        <li><strong>JWT value pattern</strong> — a base64 <code class="inline-code">eyJ...</code> segment detected in the code (High)</li>
+                        <li><strong>Bearer token pattern</strong> — <code class="inline-code">Bearer eyJ...</code> style value detected (High)</li>
+                        <li><strong>JSON.stringify inside setItem</strong> — serialised objects may contain hidden sensitive fields (High if key is sensitive, Medium otherwise)</li>
+                        <li><strong>Sensitive key in getItem</strong> — confirms sensitive data exists in storage (Medium)</li>
+                        <li><strong>eval() with storage value</strong> — direct code injection vector (High)</li>
+                        <li><strong>General usage notice</strong> — fallback Low finding when no sensitive patterns detected</li>
+                    </ul>
+
+                    <h3>Example — Insecure Storage</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">JavaScript</span>
+                            <button class="copy-btn" data-target="storage-weak">Copy</button>
+                        </div>
+                        <pre class="code-block" id="storage-weak"><code>localStorage.setItem('token', jwtValue)
+localStorage.setItem('user', JSON.stringify(userData))
+const auth = localStorage.getItem('authToken')
+eval(localStorage.getItem('script'))</code></pre>
+                    </div>
+
+                    <h3>Example — Safer Approach</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">JavaScript</span>
+                            <button class="copy-btn" data-target="storage-better">Copy</button>
+                        </div>
+                        <pre class="code-block" id="storage-better"><code>// Store auth tokens in HttpOnly cookies via the server
+// Use localStorage only for non-sensitive UI state
+localStorage.setItem('theme', 'dark')
+localStorage.setItem('language', 'en')</code></pre>
+                    </div>
+
+                    <div class="doc-callout doc-callout--warning">
+                        <strong>Key rule:</strong> Never store authentication tokens, JWTs, passwords, or session identifiers in localStorage or sessionStorage. An XSS attack on any script on the page can read all storage instantly. Use HttpOnly cookies instead.
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Store auth tokens in HttpOnly cookies managed server-side</li>
+                        <li>Use localStorage only for non-sensitive UI state (theme, language)</li>
+                        <li>Never pass storage values to <code class="inline-code">eval()</code> or <code class="inline-code">Function()</code></li>
+                        <li>Audit all <code class="inline-code">JSON.stringify</code> calls to check what fields are being serialised</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- 09 — Risk Scoring        -->
+            <!-- ======================== -->
+            <section class="doc-section" id="risk">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">09</span>
+                    <h2>Risk Scoring Model</h2>
+                </div>
+                <div class="doc-section-body">
+                    <p>The dashboard generates a cumulative risk score based on the severity of all active findings. Scores are additive — running multiple tools in a session accumulates across findings until the dashboard is cleared.</p>
+
+                    <div class="risk-table">
+                        <div class="risk-row risk-row--header">
+                            <span>Severity</span>
+                            <span>Points</span>
+                            <span>Examples</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="doc-severity doc-severity--high">High</span>
+                            <span class="risk-points risk-points--high">+40</span>
+                            <span class="risk-example">XSS, DOM Sinks, Missing HSTS, Unsigned JWT, Missing HttpOnly on session cookie</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="doc-severity doc-severity--medium">Medium</span>
+                            <span class="risk-points risk-points--medium">+20</span>
+                            <span class="risk-example">Phishing URL, Weak CSP, JWT missing exp, Missing X-Frame-Options, Missing SameSite</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="doc-severity doc-severity--low">Low</span>
+                            <span class="risk-points risk-points--low">+10</span>
+                            <span class="risk-example">Missing Referrer-Policy, Weak HSTS duration, Cookie without expiry, General storage usage</span>
+                        </div>
+                    </div>
+
+                    <div class="doc-callout doc-callout--warning">
+                        <strong>Disclaimer:</strong> This scoring model is intentionally simplified for educational purposes and should not replace professional risk assessment methodologies or formal security audits.
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /.doc-content -->
+
+    </main>
+
+    <!-- ===================================== -->
+    <!-- Footer                               -->
+    <!-- ===================================== -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>Educational cybersecurity portfolio project. Findings are heuristic and intended for learning purposes only.</p>
+        </div>
+    </footer>
+
+    <script src="js/learn.js" defer></script>
+
+</body>
+</html>
